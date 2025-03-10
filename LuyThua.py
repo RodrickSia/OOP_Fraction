@@ -8,7 +8,7 @@ class LuyThua:
             # Handle case when numerator is zero
             # Handle case when denominator is zero
             # Normalize
-            if self.denominator != 0:
+            if self.denominator != 0 and self.numerator != 0:
                 self._normalize()   
         def _gcd(self, a, b):
             a = abs(a)
@@ -47,6 +47,9 @@ class LuyThua:
         self.power = self.Fraction(n2, d2)
         
         # Handle case of undefined
+            # Case of 0 ^ 0
+        if self.exponent.numerator == 0 and self.power.numerator == 0:
+            return
             # Case of 0 in denominator
         if self.exponent.denominator == 0 or self.power.denominator == 0:
             return
