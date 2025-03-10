@@ -1,5 +1,4 @@
 import random
-IS_VALID_ROOT = 0.1
 class LuyThua:
     # Class fraciton before printing 
     class Fraction:
@@ -77,6 +76,10 @@ class LuyThua:
             self.power.numerator = -self.power.numerator
                
         # Handle case when the exponent can be reduced to power
+        components = self._get_common_power(self.exponent.numerator, self.exponent.denominator)
+        if not components:
+            return
+        self._simplify_power(self)
 
         return 
     
@@ -89,18 +92,57 @@ class LuyThua:
     
     # Functions to calculate the shorten result
 
-    def _get_common_power(a: int, b: int, constrain = 100):
+    def _get_common_power(self, a: int, b: int, constrain = 100):
         for n in range(2, constrain):
             A = round(a ** (1/n))
             B = round(b ** (1/n))
             if A**n == a and B**n == B:
                 return (A, B, n)
+        return None
     
-    def _construct_shorten(self, LuyThua):
-        return
+    """
+    @staticmethod
+    def _is_preferable(old: "LuyThua", new: "LuyThua"):
+        # Check length
+        if len(old.to_string()) > len(new.to_string):
+            return True
+        # Check value
+        if old.exponent.numerator > new.exponent.numerator:
+            return True
+        if old.exponent.denominator > new.exponent.denominator:
+            return True
+        if old.power.numerator > new.power.numerator:
+            return True
+        if old.power.denominator > new.power.denominator:
+            return True
+        
+        return False
+    """
+    def _construct_shorten(self, components: tuple) -> "LuyThua":
+        a = components[0]
+        b = components[1]
+        reduction_index = components[2]
+        c = self.power.numerator
+        d = self.power.denominator
+        first = self.Fraction(a,b)
+        second = self.Fraction(c*reduction_index, d)
+        return first, second
+        
     
-    def _is_preferable(self, old, new):
-        return
+    # Function to handle reduction of power using the output of construct shorten
+    def _rebind(self, a, b, c, d):
+        self.exponent.numerator = a
+        self.exponent.denominator = b
+        self.power.numerator = c
+        self.power.denominator = d
+    def _simplify_power(self, new_first, new_second):
+        # We have first and second as the new LuyThua and self as the old LuyThua
+        new_string = f"{new_first.__str__()}^{new_second.__str__()}"
+        if len(self.to_string()) > new_string:
+            # Construct new 
+        
+        
+    
     
     # To readable string
     def to_string(self):
