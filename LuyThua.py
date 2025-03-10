@@ -68,20 +68,29 @@ class LuyThua:
             self.exponent.denominator = 1
             self.power.numerator = 0
             self.power.denominator = 1
+            return
                         
         
         # Handle case of negative power
         if self._is_negative(self.power.numerator, self.power.denominator):
             self.exponent.numerator, self.exponent.denominator = self.exponent.denominator, self.exponent.numerator
             self.power.numerator = -self.power.numerator
-               
+        # Handle when the exponent is not in correct format of negative
+        print(self.exponent.numerator, self.exponent.denominator)
+        
+        if self._is_negative(self.exponent.numerator, self.exponent.denominator):
+            self.exponent.numerator = -(abs(self.exponent.numerator))
+            self.exponent.denominator = (abs(self.exponent.denominator))                        
+
         # Handle case when the exponent can be reduced to power
         components = self._get_common_power(self.exponent.numerator, self.exponent.denominator)
         if not components:
             return
-        self._simplify_power(self)
+        first, second = self._construct_shorten(components)
+        self._simplify_power(first, second)
+        return
+        
 
-        return 
     
     def _is_negative(self, a, b):
         if a < 0 and b > 0:
@@ -91,34 +100,28 @@ class LuyThua:
         return False
     
     # Functions to calculate the shorten result
-
-    def _get_common_power(self, a: int, b: int, constrain = 100):
+    # Get the common power
+    def _get_common_power(self, a: int, b: int, constrain=100):
         for n in range(2, constrain):
-            A = round(a ** (1/n))
-            B = round(b ** (1/n))
-            if A**n == a and B**n == B:
+            # Check for negative inputs
+            if a < 0 or b < 0:
+                # If n is even, skip this iteration since even roots of negatives are not real.
+                if n % 2 == 0:
+                    continue
+                # For odd n, compute the real nth root manually.
+                A = round(-((-a) ** (1/n))) if a < 0 else round(a ** (1/n))
+                B = round(-((-b) ** (1/n))) if b < 0 else round(b ** (1/n))
+            else:
+                A = round(a ** (1/n))
+                B = round(b ** (1/n))
+                
+            if A ** n == a and B ** n == b:
                 return (A, B, n)
         return None
     
-    """
-    @staticmethod
-    def _is_preferable(old: "LuyThua", new: "LuyThua"):
-        # Check length
-        if len(old.to_string()) > len(new.to_string):
-            return True
-        # Check value
-        if old.exponent.numerator > new.exponent.numerator:
-            return True
-        if old.exponent.denominator > new.exponent.denominator:
-            return True
-        if old.power.numerator > new.power.numerator:
-            return True
-        if old.power.denominator > new.power.denominator:
-            return True
-        
-        return False
-    """
+    # Constructin 2 components of the simplified verson
     def _construct_shorten(self, components: tuple) -> "LuyThua":
+        
         a = components[0]
         b = components[1]
         reduction_index = components[2]
@@ -130,19 +133,32 @@ class LuyThua:
         
     
     # Function to handle reduction of power using the output of construct shorten
+        # Rebinding the simplified version
     def _rebind(self, a, b, c, d):
         self.exponent.numerator = a
         self.exponent.denominator = b
         self.power.numerator = c
         self.power.denominator = d
-    def _simplify_power(self, new_first, new_second):
-        # We have first and second as the new LuyThua and self as the old LuyThua
-        new_string = f"{new_first.__str__()}^{new_second.__str__()}"
-        if len(self.to_string()) > new_string:
-            # Construct new 
-        
-        
     
+    def _simplify_power(self, new_first: "Fraction", new_second: "Fraction"):
+        # We have first and second as the new LuyThua and self as the old LuyThua
+        
+        new_string = f"{new_first.__str__()}^{new_second.__str__()}"
+        
+        if len(self.to_string()) > len(new_string):
+            self._rebind(new_first.numerator, new_first.denominator, new_second.numerator, new_second.denominator)
+
+        if self.exponent.numerator > new_first.numerator:
+            self._rebind(new_first.numerator, new_first.denominator, new_second.numerator, new_second.denominator)
+        
+        if self.exponent.denominator > new_first.denominator:
+            self._rebind(new_first.numerator, new_first.denominator, new_second.numerator, new_second.denominator)
+        
+        if self.power.numerator > new_second.numerator:
+            self._rebind(new_first.numerator, new_first.denominator, new_second.numerator, new_second.denominator)
+        
+        if self.power.denominator > new_second.denominator:
+            self._rebind(new_first.numerator, new_first.denominator, new_second.numerator, new_second.denominator)
     
     # To readable string
     def to_string(self):
