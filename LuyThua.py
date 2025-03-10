@@ -148,16 +148,16 @@ class LuyThua:
         if len(self.to_string()) > len(new_string):
             self._rebind(new_first.numerator, new_first.denominator, new_second.numerator, new_second.denominator)
 
-        if self.exponent.numerator > new_first.numerator:
+        elif self.exponent.numerator > new_first.numerator:
             self._rebind(new_first.numerator, new_first.denominator, new_second.numerator, new_second.denominator)
         
-        if self.exponent.denominator > new_first.denominator:
+        elif self.exponent.denominator > new_first.denominator:
             self._rebind(new_first.numerator, new_first.denominator, new_second.numerator, new_second.denominator)
         
-        if self.power.numerator > new_second.numerator:
+        elif self.power.numerator > new_second.numerator:
             self._rebind(new_first.numerator, new_first.denominator, new_second.numerator, new_second.denominator)
         
-        if self.power.denominator > new_second.denominator:
+        elif self.power.denominator > new_second.denominator:
             self._rebind(new_first.numerator, new_first.denominator, new_second.numerator, new_second.denominator)
     
     # To readable string
