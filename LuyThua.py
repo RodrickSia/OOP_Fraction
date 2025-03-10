@@ -1,4 +1,3 @@
-import random
 class LuyThua:
     # Class fraciton before printing 
     class Fraction:
@@ -8,7 +7,7 @@ class LuyThua:
             # Handle case when numerator is zero
             # Handle case when denominator is zero
             # Normalize
-            if self.denominator != 0 and self.numerator != 0:
+            if self.denominator != 0 and self.numerator != 0: # Edge case for 0^0
                 self._normalize()   
         def _gcd(self, a, b):
             a = abs(a)
