@@ -74,9 +74,9 @@ class LuyThua:
             self.power.numerator = -self.power.numerator
                
         # Handle case when the exponent can be reduced to power
-        
+    
         return 
-    # Code the function to print
+    
     def _is_negative(self, a, b):
         if a < 0 and b > 0:
             return True
@@ -86,20 +86,20 @@ class LuyThua:
     
     # Functions to calculate the shorten result
     # Do later
-    def _nthPower(n:int, nth):
+    def _nthPower(self, n:int, nth):
         return
     # Do later
-    def _construct_shorten(LuyThua):
-        
-    def _is_preferable(exponent, power):
+    def _construct_shorten(self, LuyThua):
         return
     
+    def _is_preferable(self, old, new):
+        return
     
+    # To readable string
     def to_string(self):
         return f"({self.exponent})^({self.power})"
     
-    def to_string(self):
-        return f"({self.exponent})^({self.power})"
+  
 
             
             

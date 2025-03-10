@@ -80,15 +80,6 @@ class LuyThua:
         if a > 0 and b < 0:
             return True
         return False
-    # Do later
-    def _nthPower(n:int, nth):
-        return
-    # Do later
-    def _is_preferable(exponent, power):
-        return
-    
-    def to_string(self):
-        return f"({self.exponent})^({self.power})"
 
             
 import sys
