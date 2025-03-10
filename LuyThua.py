@@ -70,14 +70,12 @@ class LuyThua:
             self.power.denominator = 1
             return
                         
-        
         # Handle case of negative power
         if self._is_negative(self.power.numerator, self.power.denominator):
             self.exponent.numerator, self.exponent.denominator = self.exponent.denominator, self.exponent.numerator
             self.power.numerator = -self.power.numerator
+       
         # Handle when the exponent is not in correct format of negative
-        print(self.exponent.numerator, self.exponent.denominator)
-        
         if self._is_negative(self.exponent.numerator, self.exponent.denominator):
             self.exponent.numerator = -(abs(self.exponent.numerator))
             self.exponent.denominator = (abs(self.exponent.denominator))                        
