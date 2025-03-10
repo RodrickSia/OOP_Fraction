@@ -1,3 +1,5 @@
+import random
+IS_VALID_ROOT = 0.1
 class LuyThua:
     # Class fraciton before printing 
     class Fraction:
@@ -26,6 +28,7 @@ class LuyThua:
         
         def __str__(self):
             return f"{self.numerator}/{self.denominator}"
+    
     # Construct the LuyThua case
     def __init__(self, luy_thua_string):
         # Construct the 2 fraction
@@ -74,7 +77,7 @@ class LuyThua:
             self.power.numerator = -self.power.numerator
                
         # Handle case when the exponent can be reduced to power
-    
+
         return 
     
     def _is_negative(self, a, b):
@@ -85,10 +88,14 @@ class LuyThua:
         return False
     
     # Functions to calculate the shorten result
-    # Do later
-    def _nthPower(self, n:int, nth):
-        return
-    # Do later
+
+    def _get_common_power(a: int, b: int, constrain = 100):
+        for n in range(2, constrain):
+            A = round(a ** (1/n))
+            B = round(b ** (1/n))
+            if A**n == a and B**n == B:
+                return (A, B, n)
+    
     def _construct_shorten(self, LuyThua):
         return
     
