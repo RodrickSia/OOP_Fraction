@@ -29,6 +29,7 @@ class LuyThua:
     
     # Construct the LuyThua case
     def __init__(self, luy_thua_string):
+        
         # Construct the 2 fraction
         f1, f2 = luy_thua_string.split()
         if '/' in f1:
@@ -46,9 +47,10 @@ class LuyThua:
         self.power = self.Fraction(n2, d2)
         
         # Handle case of undefined
-            # Case of 0 ^ 0
+            # Case of 0/b and negative power
         if self.exponent.numerator == 0 and self._is_negative(self.power.numerator, self.power.denominator):
             return
+            # Case of 0 ^ 0
         if self.exponent.numerator == 0 and self.power.numerator == 0:
             return
             # Case of 0 in denominator
