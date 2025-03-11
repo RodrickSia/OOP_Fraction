@@ -47,6 +47,8 @@ class LuyThua:
         
         # Handle case of undefined
             # Case of 0 ^ 0
+        if self.exponent.numerator == 0 and self._is_negative(self.power.numerator, self.power.denominator):
+            return
         if self.exponent.numerator == 0 and self.power.numerator == 0:
             return
             # Case of 0 in denominator
