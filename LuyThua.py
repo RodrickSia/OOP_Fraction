@@ -1,7 +1,8 @@
+import decimal
 class LuyThua:
     # Class fraciton before printing 
     class Fraction:
-        def __init__(self, numerator, denominator):
+        def __init__(self, numerator = 1, denominator = 1):
             self.numerator = int(numerator)
             self.denominator = int(denominator)
             # Handle case when numerator is zero
@@ -28,24 +29,39 @@ class LuyThua:
             return f"{self.numerator}/{self.denominator}"
     
     # Construct the LuyThua case
-    def __init__(self, luy_thua_string):
+    def __init__(self, exponent = None, power = None):
         
         # Construct the 2 fraction
-        f1, f2 = luy_thua_string.split()
-        if '/' in f1:
-            n1, d1 = f1.split('/')
-        else:
-            n1 = f1
-            d1 = 1
-        if '/' in f2:
-            n2, d2 = f2.split('/')
-        else:
-            n2 = f2
-            d2 = 2
-        
-        self.exponent = self.Fraction(n1, d1)
-        self.power = self.Fraction(n2, d2)
-        
+            # Construct from string (main usage) 
+        if isinstance(exponent, str) and power == None:
+            f1, f2 = exponent.split()
+            if '/' in f1:
+                n1, d1 = f1.split('/')
+            else:
+                n1 = f1
+                d1 = 1
+            if '/' in f2:
+                n2, d2 = f2.split('/')
+            else:
+                n2 = f2
+                d2 = 2
+
+            self.exponent = self.Fraction(n1, d1)
+            self.power = self.Fraction(n2, d2)
+            # Construct from 2 Fraction 
+        elif isinstance(exponent, self.Fraction) and isinstance(power, self.Fraction):
+            self.exponent = exponent
+            self.power = power
+            # Default value when there is no value
+        elif exponent == None and power == None:
+            self.exponent = self.Fraction(0, 1)
+            self.power = self.Fraction(1, 1)
+        elif isinstance(exponent, decimal.Decimal) and isinstance(power, decimal.Decimal):
+            n1, d1 = exponent.as_integer_ratio()
+            n2, d2 = power.as_integer_ratio()
+            self.exponent = self.Fraction(n1, d1)
+            self.power = self.Fraction(n2, d2)
+            
         # Handle case of undefined
             # Case of 0/b and negative power
         if self.exponent.numerator == 0 and self._is_negative(self.power.numerator, self.power.denominator):
@@ -84,7 +100,12 @@ class LuyThua:
         # Handle when the exponent is not in correct format of negative
         if self._is_negative(self.exponent.numerator, self.exponent.denominator):
             self.exponent.numerator = -(abs(self.exponent.numerator))
-            self.exponent.denominator = (abs(self.exponent.denominator))                        
+            self.exponent.denominator = (abs(self.exponent.denominator))   
+        # Handle when the exponent is negative but the exponet numerator is postive
+        if self._is_negative(self.exponent.numerator, self.exponent.denominator) and self.power.numerator % 2 == 0:
+            self.exponent.numerator = -abs(self.exponent.numerator)
+            self.exponent.denominator = -abs(self.exponent.denominator)
+              
 
         # Handle case when the exponent can be reduced to power
         components = self._get_common_power(self.exponent.numerator, self.exponent.denominator)
